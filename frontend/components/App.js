@@ -1,5 +1,6 @@
 // ❗ The ✨ TASKS inside this component are NOT IN ORDER.
 // ❗ Check the README for the appropriate sequence to follow.
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
 const e = { // This is a dictionary of validation error messages.
@@ -21,6 +22,7 @@ const e = { // This is a dictionary of validation error messages.
 // ✨ TASK: BUILD YOUR FORM SCHEMA HERE
 // The schema should use the error messages contained in the object above.
 
+
 export default function App() {
   // ✨ TASK: BUILD YOUR STATES HERE
   // You will need states to track (1) the form, (2) the validation errors,
@@ -34,7 +36,8 @@ export default function App() {
   })
   const [messageData, setMessageData] = useState(e)
   const [formSubmit, setFormSubmit] = useState(false)
-
+  const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
   // ✨ TASK: BUILD YOUR EFFECT HERE
   // Whenever the state of the form changes, validate it against the schema
   // and update the state that tracks whether the form is submittable.
@@ -61,21 +64,36 @@ export default function App() {
     // the form. You must put the success and failure messages from the server
     // in the states you have reserved for them, and the form
     // should be re-enabled.
-   evt.preventDefault();
-   setFormSubmit(true)
-
+    evt.preventDefault()
+    setFormSubmit(false);
+    axios.post('https://webapis.bloomtechdev.com/registration', formData)
+    .then((res) => {
+      console.log('response', res.data);
+      setFormData({
+        username:'',
+        favLanguage:'',
+        favFood: '',
+        agreement: false
+      });
+      setSuccessMessage(res.data.message)
+    })
+    .catch((err) => {
+      console.error(err);
+      console.log(formData)
+      setErrorMessage(res.data.message); 
+    });
   }
 
   return (
     <div> {/* TASK: COMPLETE THE JSX */}
       <h2>Create an Account</h2>
       <form onSubmit={onSubmit}>
-        <h4 className="success">Success! Welcome, new user!</h4>
-        <h4 className="error">Sorry! Username is taken</h4>
+        <h4 className="success">{successMessage}</h4>
+        <h4 className="error">{errorMessage}</h4>
 
         <div className="inputGroup">
           <label htmlFor="username">Username:</label>
-          <input id="username" name="username" type="text" placeholder="Type Username" />
+          <input id="username" name="username" type="text" onChange={onChange} value={formData.username} placeholder="Type Username" />
           <div className="validation">{messageData.usernameRequired}</div>
         </div>
 
