@@ -32,7 +32,7 @@ export default function App() {
     favFood: '',
     agreement: false
   })
-  const [errorData, setErrorData] = useState(null)
+  const [messageData, setMessageData] = useState(e)
 
   // ✨ TASK: BUILD YOUR EFFECT HERE
   // Whenever the state of the form changes, validate it against the schema
@@ -44,6 +44,7 @@ export default function App() {
     // whether the type of event target is "checkbox" and act accordingly.
     // At every change, you should validate the updated value and send the validation
     // error to the state where we track frontend validation errors.
+
   }
 
   const onSubmit = evt => {
@@ -53,53 +54,55 @@ export default function App() {
     // the form. You must put the success and failure messages from the server
     // in the states you have reserved for them, and the form
     // should be re-enabled.
+   evt.preventDefault();
+   console.log('submitted')
   }
 
   return (
     <div> {/* TASK: COMPLETE THE JSX */}
       <h2>Create an Account</h2>
-      <form>
+      <form onSubmit={onSubmit}>
         <h4 className="success">Success! Welcome, new user!</h4>
         <h4 className="error">Sorry! Username is taken</h4>
 
         <div className="inputGroup">
           <label htmlFor="username">Username:</label>
           <input id="username" name="username" type="text" placeholder="Type Username" />
-          <div className="validation">username is required</div>
+          <div className="validation">{messageData.usernameRequired}</div>
         </div>
 
         <div className="inputGroup">
           <fieldset>
             <legend>Favorite Language:</legend>
             <label>
-              <input type="radio" name="favLanguage" value="javascript" />
+              <input type="radio" name="favLanguage" value="javascript" checked={formData.favLanguage === 'javascript'} />
               JavaScript
             </label>
             <label>
-              <input type="radio" name="favLanguage" value="rust" />
+              <input type="radio" name="favLanguage" value="rust" checked={formData.favLanguage === 'rust'} />
               Rust
             </label>
           </fieldset>
-          <div className="validation">favLanguage is required</div>
+          <div className="validation">{messageData.favLanguageRequired}</div>
         </div>
 
         <div className="inputGroup">
           <label htmlFor="favFood">Favorite Food:</label>
-          <select id="favFood" name="favFood">
+          <select value={formData.favFood} id="favFood" name="favFood">
             <option value="">-- Select Favorite Food --</option>
             <option value="pizza">Pizza</option>
             <option value="spaghetti">Spaghetti</option>
             <option value="broccoli">Broccoli</option>
           </select>
-          <div className="validation">favFood is required</div>
+          <div className="validation">{messageData.favFoodRequired}</div>
         </div>
 
         <div className="inputGroup">
           <label>
-            <input id="agreement" type="checkbox" name="agreement" />
+            <input id="agreement" type="checkbox" name="agreement" checked={formData.agreement} />
             Agree to our terms
           </label>
-          <div className="validation">agreement is required</div>
+          <div className="validation">{messageData.agreementRequired}</div>
         </div>
 
         <div>
