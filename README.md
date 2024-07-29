@@ -80,7 +80,7 @@ Below is a suggested sequence for completing this task:
 
 3.x Fix the JSX to wire the change and submit handlers. Render the success and failure messages, taking them from their corresponding states, using curly braces.
  
-4. Implement the change handler without any validation. The same handler should work for all inputs, with minor adjustments if the type is "checkbox".
+4.Implement the change handler without any validation. The same handler should work for all inputs, with minor adjustments if the type is "checkbox".
 
 5. Implement the submit handler: POST the form to the endpoint and store proper success and error messages in their proper states. Clear the form in the case of success.
 

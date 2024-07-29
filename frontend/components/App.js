@@ -1,6 +1,6 @@
 // ❗ The ✨ TASKS inside this component are NOT IN ORDER.
 // ❗ Check the README for the appropriate sequence to follow.
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const e = { // This is a dictionary of validation error messages.
   // username
@@ -33,18 +33,25 @@ export default function App() {
     agreement: false
   })
   const [messageData, setMessageData] = useState(e)
+  const [formSubmit, setFormSubmit] = useState(false)
 
   // ✨ TASK: BUILD YOUR EFFECT HERE
   // Whenever the state of the form changes, validate it against the schema
   // and update the state that tracks whether the form is submittable.
 
+  
   const onChange = evt => {
     // ✨ TASK: IMPLEMENT YOUR INPUT CHANGE HANDLER
     // The logic is a bit different for the checkbox, but you can check
     // whether the type of event target is "checkbox" and act accordingly.
     // At every change, you should validate the updated value and send the validation
     // error to the state where we track frontend validation errors.
+    const { name, value, type, checked } = evt.target;
 
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value,
+    }))
   }
 
   const onSubmit = evt => {
@@ -55,7 +62,8 @@ export default function App() {
     // in the states you have reserved for them, and the form
     // should be re-enabled.
    evt.preventDefault();
-   console.log('submitted')
+   setFormSubmit(true)
+
   }
 
   return (
@@ -75,11 +83,11 @@ export default function App() {
           <fieldset>
             <legend>Favorite Language:</legend>
             <label>
-              <input type="radio" name="favLanguage" value="javascript" checked={formData.favLanguage === 'javascript'} />
+              <input type="radio" name="favLanguage" value="javascript" onChange={onChange} checked={formData.favLanguage === 'javascript'} />
               JavaScript
             </label>
             <label>
-              <input type="radio" name="favLanguage" value="rust" checked={formData.favLanguage === 'rust'} />
+              <input type="radio" name="favLanguage" value="rust" onChange={onChange} checked={formData.favLanguage === 'rust'} />
               Rust
             </label>
           </fieldset>
@@ -88,7 +96,7 @@ export default function App() {
 
         <div className="inputGroup">
           <label htmlFor="favFood">Favorite Food:</label>
-          <select value={formData.favFood} id="favFood" name="favFood">
+          <select value={formData.favFood} onChange={onChange} id="favFood" name="favFood">
             <option value="">-- Select Favorite Food --</option>
             <option value="pizza">Pizza</option>
             <option value="spaghetti">Spaghetti</option>
@@ -99,14 +107,14 @@ export default function App() {
 
         <div className="inputGroup">
           <label>
-            <input id="agreement" type="checkbox" name="agreement" checked={formData.agreement} />
+            <input id="agreement" type="checkbox" name="agreement" onChange={onChange} checked={formData.agreement} />
             Agree to our terms
           </label>
           <div className="validation">{messageData.agreementRequired}</div>
         </div>
 
         <div>
-          <input type="submit" disabled={false} />
+          <input type="submit" disabled={formSubmit} />
         </div>
       </form>
     </div>
