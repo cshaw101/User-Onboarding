@@ -2,6 +2,7 @@
 // ❗ Check the README for the appropriate sequence to follow.
 import axios from 'axios'
 import React, { useState } from 'react'
+import * as Yup from "yup";
 
 const e = { // This is a dictionary of validation error messages.
   // username
@@ -25,21 +26,21 @@ const e = { // This is a dictionary of validation error messages.
 const formSchema = Yup.object().shape({
   username: Yup
       .string()
-      .required(usernameRequired)
-      .min(3, usernameMin)
-      .max(20, usernameMax),
+      .required(e.usernameRequired)
+      .min(3, e.usernameMin)
+      .max(20, e.usernameMax),
   favLanguage: Yup
       .string()
-      .required(favLanguageRequired)
-      .oneOf([ 'javascript, rust', favFoodOptions]),
+      .required(e.favLanguageRequired)
+      .oneOf([ 'javascript, rust', e.favFoodOptions]),
   favFood: Yup  
       .string()
-      .required(favFoodRequired)
-      .oneOf([ 'broccoli, spaghetti, pizza', favFoodOptions ]),
+      .required(e.favFoodRequired)
+      .oneOf([ 'broccoli, spaghetti, pizza', e.favFoodOptions ]),
   agreement: Yup
       .boolean()
-      .required(agreementRequired)
-      .oneOf([true], agreementOptions)
+      .required(e.agreementRequired)
+      .oneOf([true], e.agreementOptions)
 })
 
 
