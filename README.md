@@ -92,9 +92,9 @@ The frontend could be doing a lot more to prevent the user from POSTing data tha
 
 Here is a suggested sequence:
 
-1. Create a state to hold validation errors for all inputs. Create another state to track whether submitting the form is disabled or not.
+1.x Create a state to hold validation errors for all inputs. Create another state to track whether submitting the form is disabled or not.
 
-2. Build a schema using Yup to validate the state of the form. Use the provided dictionary of error messages to guide you.
+2.x Build a schema using Yup to validate the state of the form. Use the provided dictionary of error messages to guide you.
 
 3. In the JSX code, use the submit input's `disabled` property to update the state variable that monitors if the form is submittable.
 

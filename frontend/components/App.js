@@ -22,6 +22,26 @@ const e = { // This is a dictionary of validation error messages.
 // ✨ TASK: BUILD YOUR FORM SCHEMA HERE
 // The schema should use the error messages contained in the object above.
 
+const formSchema = Yup.object().shape({
+  username: Yup
+      .string()
+      .required(usernameRequired)
+      .min(3, usernameMin)
+      .max(20, usernameMax),
+  favLanguage: Yup
+      .string()
+      .required(favLanguageRequired)
+      .oneOf([ 'javascript, rust', favFoodOptions]),
+  favFood: Yup  
+      .string()
+      .required(favFoodRequired)
+      .oneOf([ 'broccoli, spaghetti, pizza', favFoodOptions ]),
+  agreement: Yup
+      .boolean()
+      .required(agreementRequired)
+      .oneOf([true], agreementOptions)
+})
+
 
 export default function App() {
   // ✨ TASK: BUILD YOUR STATES HERE
