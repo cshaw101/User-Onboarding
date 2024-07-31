@@ -1,7 +1,7 @@
 // ❗ The ✨ TASKS inside this component are NOT IN ORDER.
 // ❗ Check the README for the appropriate sequence to follow.
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 const e = { // This is a dictionary of validation error messages.
   // username
@@ -35,7 +35,7 @@ export default function App() {
     agreement: false
   })
   const [messageData, setMessageData] = useState(e)
-  const [formSubmit, setFormSubmit] = useState(false)
+  const [formDisabled, setFormDisabled] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   // ✨ TASK: BUILD YOUR EFFECT HERE
@@ -65,7 +65,7 @@ export default function App() {
     // in the states you have reserved for them, and the form
     // should be re-enabled.
     evt.preventDefault()
-    setFormSubmit(false);
+    setFormDisabled(false);
     axios.post('https://webapis.bloomtechdev.com/registration', formData)
     .then((res) => {
       console.log('response', res.data);
@@ -132,7 +132,7 @@ export default function App() {
         </div>
 
         <div>
-          <input type="submit" disabled={formSubmit} />
+          <input type="submit" disabled={formDisabled} />
         </div>
       </form>
     </div>

@@ -82,9 +82,9 @@ Below is a suggested sequence for completing this task:
  
 4.x Implement the change handler without any validation. The same handler should work for all inputs, with minor adjustments if the type is "checkbox".
 
-5. Implement the submit handler: POST the form to the endpoint and store proper success and error messages in their proper states. Clear the form in the case of success.
+5.x Implement the submit handler: POST the form to the endpoint and store proper success and error messages in their proper states. Clear the form in the case of success.
 
-6. You should have a functional form that relies on back-end validation only, without any frontend validation to help the user.
+6.x You should have a functional form that relies on back-end validation only, without any frontend validation to help the user.
 
 #### 👉 TASK 2 - Implement frontend validation using Yup
 
