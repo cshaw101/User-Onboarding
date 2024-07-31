@@ -1,7 +1,7 @@
 // ❗ The ✨ TASKS inside this component are NOT IN ORDER.
 // ❗ Check the README for the appropriate sequence to follow.
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from "yup";
 
 const e = { // This is a dictionary of validation error messages.
@@ -63,6 +63,22 @@ export default function App() {
   // Whenever the state of the form changes, validate it against the schema
   // and update the state that tracks whether the form is submittable.
 
+  useEffect(() => {
+formSchema.isValid(formData)
+          .then(() => {
+            setMessageData({})
+            setFormDisabled(false)
+          })
+          .catch((err) => {
+            const validationErrors = {}
+            err.inner.forEach(error => {
+              validationErrors[error.path] = error.message
+            });
+            setMessageData(validationErrors)
+            setFormDisabled(true)
+          })
+  },[formData])
+
   
   const onChange = evt => {
     // ✨ TASK: IMPLEMENT YOUR INPUT CHANGE HANDLER
@@ -86,7 +102,6 @@ export default function App() {
     // in the states you have reserved for them, and the form
     // should be re-enabled.
     evt.preventDefault()
-    setFormDisabled(false);
     axios.post('https://webapis.bloomtechdev.com/registration', formData)
     .then((res) => {
       console.log('response', res.data);

@@ -96,9 +96,9 @@ Here is a suggested sequence:
 
 2.x Build a schema using Yup to validate the state of the form. Use the provided dictionary of error messages to guide you.
 
-3. In the JSX code, use the submit input's `disabled` property to update the state variable that monitors if the form is submittable.
+3.x In the JSX code, use the submit input's `disabled` property to update the state variable that monitors if the form is submittable.
 
-4. Create an effect that triggers if the form's state changes. When it does change, run validation on the whole form and update whether the user can submit it.
+4.x Create an effect that triggers if the form's state changes. When it does change, run validation on the whole form and update whether the user can submit it.
 
 5. Edit the change handler so that validation runs on the changed field (e.g., `favFood`). Update the corresponding validation error in the component state.
 
