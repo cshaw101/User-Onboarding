@@ -100,7 +100,7 @@ Here is a suggested sequence:
 
 4.x Create an effect that triggers if the form's state changes. When it does change, run validation on the whole form and update whether the user can submit it.
 
-5. Edit the change handler so that validation runs on the changed field (e.g., `favFood`). Update the corresponding validation error in the component state.
+5.x Edit the change handler so that validation runs on the changed field (e.g., `favFood`). Update the corresponding validation error in the component state.
 
 The form should be fully functional now!
 

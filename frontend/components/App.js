@@ -32,11 +32,11 @@ const formSchema = Yup.object().shape({
   favLanguage: Yup
       .string()
       .required(e.favLanguageRequired)
-      .oneOf([ 'javascript, rust', e.favFoodOptions]),
-  favFood: Yup  
+      .oneOf(['javascript', 'rust'], e.favLanguageOptions),
+  favFood: Yup
       .string()
       .required(e.favFoodRequired)
-      .oneOf([ 'broccoli, spaghetti, pizza', e.favFoodOptions ]),
+      .oneOf(['broccoli', 'spaghetti', 'pizza'], e.favFoodOptions),
   agreement: Yup
       .boolean()
       .required(e.agreementRequired)
@@ -55,7 +55,7 @@ export default function App() {
     favFood: '',
     agreement: false
   })
-  const [messageData, setMessageData] = useState(e)
+  const [messageData, setMessageData] = useState({})
   const [formDisabled, setFormDisabled] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -64,20 +64,21 @@ export default function App() {
   // and update the state that tracks whether the form is submittable.
 
   useEffect(() => {
-formSchema.isValid(formData)
-          .then(() => {
-            setMessageData({})
-            setFormDisabled(false)
-          })
-          .catch((err) => {
-            const validationErrors = {}
-            err.inner.forEach(error => {
-              validationErrors[error.path] = error.message
-            });
-            setMessageData(validationErrors)
-            setFormDisabled(true)
-          })
-  },[formData])
+    formSchema
+      .validate(formData, { abortEarly: false })
+      .then(() => {
+        setMessageData({});
+        setFormDisabled(false);
+      })
+      .catch((err) => {
+        const validationErrors = {};
+        err.inner.forEach((error) => {
+          validationErrors[error.path] = error.message;
+        });
+        setMessageData(validationErrors);
+        setFormDisabled(true);
+      });
+  }, [formData]);
 
   
   const onChange = evt => {
@@ -112,11 +113,14 @@ formSchema.isValid(formData)
         agreement: false
       });
       setSuccessMessage(res.data.message)
+      setErrorMessage('');
+      setFormDisabled(false);
     })
     .catch((err) => {
-      console.error(err);
+      setErrorMessage(err.response.data.message || 'Error occurred');
       console.log(formData)
-      setErrorMessage(res.data.message); 
+      setSuccessMessage('');
+      setFormDisabled(false);
     });
   }
 
@@ -130,7 +134,7 @@ formSchema.isValid(formData)
         <div className="inputGroup">
           <label htmlFor="username">Username:</label>
           <input id="username" name="username" type="text" onChange={onChange} value={formData.username} placeholder="Type Username" />
-          <div className="validation">{messageData.usernameRequired}</div>
+          <div className="validation">{messageData.username}</div>
         </div>
 
         <div className="inputGroup">
@@ -145,7 +149,7 @@ formSchema.isValid(formData)
               Rust
             </label>
           </fieldset>
-          <div className="validation">{messageData.favLanguageRequired}</div>
+          <div className="validation">{messageData.favLanguage}</div>
         </div>
 
         <div className="inputGroup">
@@ -156,7 +160,7 @@ formSchema.isValid(formData)
             <option value="spaghetti">Spaghetti</option>
             <option value="broccoli">Broccoli</option>
           </select>
-          <div className="validation">{messageData.favFoodRequired}</div>
+          <div className="validation">{messageData.favFood}</div>
         </div>
 
         <div className="inputGroup">
@@ -164,7 +168,7 @@ formSchema.isValid(formData)
             <input id="agreement" type="checkbox" name="agreement" onChange={onChange} checked={formData.agreement} />
             Agree to our terms
           </label>
-          <div className="validation">{messageData.agreementRequired}</div>
+          <div className="validation">{messageData.agreement}</div>
         </div>
 
         <div>
